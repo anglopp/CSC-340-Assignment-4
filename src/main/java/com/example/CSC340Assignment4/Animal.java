@@ -16,7 +16,11 @@ public class Animal {
     private String description;
     private String category;
 
-    //Getters and Setters
+    // No-Argument Constructor
+    public Animal() {
+    }
+
+    // Getters and Setters
     public int getAnimalId() {
         return animalId;
     }
@@ -41,12 +45,11 @@ public class Animal {
         this.description = description;
     }
 
-    public String getCategory(){
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(){
+    public void setCategory(String category) {
         this.category = category;
     }
-
 }

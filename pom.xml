@@ -56,11 +56,14 @@
 			<version>3.1.0</version> <!-- Use the latest version compatible with Spring Boot 3.x -->
 		</dependency>
 
+<<<<<<< HEAD
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-freemarker</artifactId>
 		</dependency>
 
+=======
+>>>>>>> 21e3730959aaa8dcc1d56b3bcf9679f5c4077911
 	</dependencies>
 
 	<build>

@@ -9,5 +9,4 @@ public class Csc340Assignment4Application {
 	public static void main(String[] args) {
 		SpringApplication.run(Csc340Assignment4Application.class, args);
 	}
-
 }
