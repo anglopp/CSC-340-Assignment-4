@@ -4,12 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 /**
  * Controller for handling all requests related to Animal entities.
- * Renders views using FreeMarker templates and supports basic API interactions.
  */
 @Controller
 @RequestMapping("/animals")
@@ -24,96 +22,88 @@ public class AnimalController {
 
     /**
      * Renders a list of all animals.
-     * URL: http://localhost:8080/animals
-     *
-     * @param model Spring Model for passing data to the view
-     * @return name of the FreeMarker template to render
      */
     @GetMapping
     public String getAllAnimals(Model model) {
         List<Animal> animals = animalService.getAllAnimals();
         model.addAttribute("animals", animals);
-        return "animals";
+        return "animal-list";
     }
 
     /**
      * Renders details of a specific animal by ID.
-     * URL: http://localhost:8080/animals/{id}
-     *
-     * @param id    Animal ID
-     * @param model Spring Model for passing data to the view
-     * @return name of the FreeMarker template to render
      */
     @GetMapping("/{id}")
     public String getAnimalById(@PathVariable int id, Model model) {
         Animal animal = animalService.getAnimalById(id);
         model.addAttribute("animal", animal);
-        return "animalDetails";
+        return "animal-details";
     }
 
     /**
-     * Creates a new animal (API POST).
-     * URL: http://localhost:8080/animals
-     *
-     * @param animal JSON request body with animal data
-     * @return the saved Animal object
+     * Renders the form to add a new animal.
+     */
+    @GetMapping("/new")
+    public String showAddForm(Model model) {
+        model.addAttribute("animal", new Animal());
+        return "animal-create";  // Make sure the form page is named animal-create.ftlh
+    }
+
+    /**
+     * Processes the form to add a new animal.
      */
     @PostMapping
-    public Animal addAnimal(@RequestBody Animal animal) {
-        return animalService.addAnimal(animal);
+    public String addAnimal(@ModelAttribute Animal animal) {
+        animalService.addAnimal(animal);
+        return "redirect:/animals";
     }
 
     /**
-     * Updates an existing animal (API PUT).
-     * URL: http://localhost:8080/animals/{id}
-     *
-     * @param id     Animal ID
-     * @param animal JSON request body with updated animal data
-     * @return the updated Animal object
+     * Renders the form to edit an existing animal.
      */
-    @PutMapping("/{id}")
-    public Animal updateAnimal(@PathVariable int id, @RequestBody Animal animal) {
-        return animalService.updateAnimal(id, animal);
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable int id, Model model) {
+        Animal animal = animalService.getAnimalById(id);
+        model.addAttribute("animal", animal);
+        return "animal-update";  // Make sure the form page is named animal-update.ftlh
     }
 
     /**
-     * Deletes an animal by ID (API DELETE).
-     * URL: http://localhost:8080/animals/{id}
-     *
-     * @param id Animal ID
+     * Processes the form to update an existing animal.
      */
-    @DeleteMapping("/{id}")
-    public void deleteAnimal(@PathVariable int id) {
+    @PostMapping("/{id}")
+    public String updateAnimal(@PathVariable int id, @ModelAttribute Animal animal) {
+        animal.setAnimalId(id);  // Ensure the ID is set for the update
+        animalService.updateAnimal(id, animal);
+        return "redirect:/animals/" + id;  // Redirect to the animal's detail page after update
+    }
+
+    /**
+     * Deletes an animal by ID.
+     */
+    @GetMapping("/delete/{id}")
+    public String deleteAnimal(@PathVariable int id) {
         animalService.deleteAnimal(id);
+        return "redirect:/animals";
     }
 
     /**
      * Renders animals filtered by category.
-     * URL: http://localhost:8080/animals/category/{category}
-     *
-     * @param category Animal category
-     * @param model    Spring Model for passing data to the view
-     * @return name of the FreeMarker template to render
      */
     @GetMapping("/category/{category}")
     public String getAnimalsByCategory(@PathVariable String category, Model model) {
         List<Animal> animals = animalService.getAnimalsByCategory(category);
         model.addAttribute("animals", animals);
-        return "animalsByCategory";
+        return "animal-list";
     }
 
     /**
      * Renders animals whose name contains a given string.
-     * URL: http://localhost:8080/animals/name/{name}
-     *
-     * @param name  Substring of the animal name
-     * @param model Spring Model for passing data to the view
-     * @return name of the FreeMarker template to render
      */
     @GetMapping("/name/{name}")
     public String getAnimalsByNameContains(@PathVariable String name, Model model) {
         List<Animal> animals = animalService.getAnimalsByNameContains(name);
         model.addAttribute("animals", animals);
-        return "animalsByName";
+        return "animal-list";
     }
 }

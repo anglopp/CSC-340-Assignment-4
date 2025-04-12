@@ -75,7 +75,7 @@ main{
 }
 .animal p{
 	font-size: 14px;
-	color: #555px;
+	color: #555;
 }
 
 .about-image{
@@ -91,5 +91,50 @@ footer{
 	color: white;
 	text-align: center;
 	padding: 15px;
+	margin-top: 20px;
+}
+
+/*Style for buttons*/
+.edit-link, .delete-link {
+	display: inline-block;
+	margin: 10px;
+	padding: 10px 15px;
+	border-radius: 5px;
+	text-decoration: none;
+	font-weight: bold;
+	transition: background-color 0.3s ease;
+}
+
+.edit-link {
+	background-color: #4CAF50; /* green */
+	color: white;
+}
+
+.edit-link:hover {
+	background-color: #45a049;
+}
+
+.delete-link {
+	background-color: #f44336; /* red */
+	color: white;
+}
+
+.delete-link:hover {
+	background-color: #d32f2f;
+}
+
+/*Style for layout consistency between animal-list and animal-details*/
+.details {
+	background: white;
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+	width: 60%;
+	margin: 0 auto 20px;
+	text-align: center;
+}
+
+.action-buttons {
+	text-align: center;
 	margin-top: 20px;
 }
